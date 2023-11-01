@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html class="overflow-x-hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- cdn of font awesonme -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+       <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap"
+      rel="stylesheet" />
+    <!--  for style  -->
+    <link href="/dist/output.css" rel="stylesheet" />
+    <!-- <link href="../src/style.css" rel="stylesheet" /> -->
+    
+    <!-- import axios -->
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <!-- sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  </head>
+
+  <body class="bg-[#f0ecff] overflow-x-hidden">
+    <!-- loader -->
+    <div id="loader" style="visibility: hidden;" class="fixed top-1/2 left-1/2 z-50 bg-gray-500/50 w-[100px] h-[100px] rounded-[20px] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center m-auto  ">
+      <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+    <!-- end loader -->
+    <!-- div create post-->
+    <div
+    data-te-toggle="modal"
+    data-te-target="#addpost"
+    data-te-whatever="@mdo"
+     id="add-post" class="fixed bottom-[50px] cursor-pointer right-[40px] bg-sky-500 transition-all duration-200 hover:bg-sky-600 text-white flex items-center justify-center h-[50px] w-[50px] rounded-full text-[40px]">
+      +
+    </div>
+    <!-- end create post -->
+    <!-- modal for login -->
+    <!-- Modal -->
+    <div
+      data-te-modal-init
+      class="fixed left-0 top-0 z-[100000] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+      id="exampleModalVarying"
+      tabindex="-1"
+      aria-labelledby="exampleModalVaryingLabel"
+      aria-hidden="true">
+      <div
+        data-te-modal-dialog-ref
+        class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+        <div
+          class="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+          <div
+            class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+            <h5
+              class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+              id="exampleModalVaryingLabel">
+              LOGIN
+            </h5>
+            <button
+              type="button"
+              class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+              data-te-modal-dismiss
+              aria-label="Close">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="h-6 w-6">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="relative flex-auto p-4" data-te-modal-body-ref>
+            <form>
+              <div class="mb-3">
+                <label for="username">Username</label>
+                <input
+                value="Rayan7"
+                  type="text"
+                  class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+                  id="username" />
+              </div>
+              <div class="mb-3">
+                <label for="password">Password</label>
+                
+                <input
+                value="m46257r"
+                type="password"
+                  class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+                  id="password"></input>
+              </div>
+            </form>
+          </div>
+          <div
+            class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+            <button
+            id="closeBtnLogin"
+              type="button"
+              class="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+              data-te-modal-dismiss
+              data-te-ripple-init
+              data-te-ripple-color="light">
+              Close
+            </button>
+            <button
+              onclick="loginByClicked()"
+              type="button"
+              class="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+              data-te-ripple-init
+              data-te-ripple-color="light">
+             Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal for sign up -->
+    <div
+    data-te-modal-init
+    class="fixed left-0 top-0 z-[100000] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+    id="regestirition"
+    tabindex="-1"
+    aria-labelledby="exampleModalVaryingLabel"
+    aria-hidden="true">
+    <div
+      data-te-modal-dialog-ref
+      class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+      <div
+        class="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+        <div
+          class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+          <h5
+            class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+            id="exampleModalVaryingLabel">
+            SIGNUP
+          </h5>
+          <button
+            type="button"
+            class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+            data-te-modal-dismiss
+            aria-label="Close">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-6 w-6">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="relative flex-auto p-4" data-te-modal-body-ref>
+          <form>
+            <div class="mb-3">
+              <label for="username">Image Profile</label>
+              <input
+                type="file"
+                class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+                id="reg-img" />
+            </div>
+            <div class="mb-3">
+              <label for="username">Name</label>
+              <input
+              value="Rayan"
+                type="text"
+                class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+                id="reg-name" />
+            </div>
+            <div class="mb-3">
+              <label for="username">Username</label>
+              <input
+              value="Rayan7"
+                type="text"
+                class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+                id="reg-username" />
+            </div>
+            <div class="mb-3">
+              <label for="password">Password</label>
+              
+              <input
+              value="m46257r"
+              type="password"
+                class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+                id="reg-password"></input>
+            </div>
+          </form>
+        </div>
+        <div
+          class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+          <button
+          id="RegcloseBtnLogin"
+            type="button"
+            class="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+            data-te-modal-dismiss
+            data-te-ripple-init
+            data-te-ripple-color="light">
+            Close
+          </button>
+          <button
+            onclick="signUpByClicked()"
+            type="button"
+            class="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+            data-te-ripple-init
+            data-te-ripple-color="light">
+           Sign up
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal for add post  -->
+  <div
+  data-te-modal-init
+  class="fixed left-0 top-0 z-[100000] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+  id="addpost"
+  tabindex="-1"
+  aria-labelledby="exampleModalVaryingLabel"
+  aria-hidden="true">
+  <div
+    data-te-modal-dialog-ref
+    class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+    <div
+      class="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+      <div
+        class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+        <h5
+          class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+          id="exampleModalVaryingLabel">
+          Add A New Post
+        </h5>
+        <button
+          type="button"
+          class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+          data-te-modal-dismiss
+          aria-label="Close">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="h-6 w-6">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="relative flex-auto p-4" data-te-modal-body-ref>
+        <form>
+          <div class="mb-3">
+            <label for="username">Title</label>
+            <input
+              type="text"
+              class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+              id="TitlePost" />
+          </div>
+          <div class="mb-3">
+           <textarea class="w-full h-[70px] resize-none p-3 rounded-lg border border-gray-300" name="" id="textAreaPost" placeholder="Body Of Post" ></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="username">Image</label>
+            <input
+              type="file"
+              class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.5rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary "
+              id="imgPost" />
+          </div>
+        </form>
+      </div>
+      <div
+        class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+        <button
+        id="postcloseBtnLogin"
+          type="button"
+          class="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+          data-te-modal-dismiss
+          data-te-ripple-init
+          data-te-ripple-color="light">
+          Close
+        </button>
+        <button
+          onclick="addPostByClicked()"
+          type="button"
+          class="ml-1 inline-block rounded bg-green-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-green-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]  focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+          data-te-ripple-init
+          data-te-ripple-color="light">
+         Add Post
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal for edit post  -->
+<div
+data-te-modal-init
+class="fixed left-0 top-0 z-[100000] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+id="edit"
+tabindex="-1"
+aria-labelledby="exampleModalVaryingLabel"
+aria-hidden="true">
+<div
+  data-te-modal-dialog-ref
+  class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+  <div
+    class="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+    <div
+      class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+      <h5
+        class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+        id="exampleModalVaryingLabel">
+        Edit A Post
+      </h5>
+      <button
+        type="button"
+        class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+        data-te-modal-dismiss
+        aria-label="Close">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-6 w-6">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="relative flex-auto p-4" data-te-modal-body-ref>
+      <form>
+        <div class="mb-3">
+          <label for="username">Title</label>
+          <input
+            type="text"
+            class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+            id="Titleedit" />
+        </div>
+        <div class="mb-3">
+         <textarea class="w-full h-[70px] resize-none p-3 rounded-lg border border-gray-300" name="" id="textAreaPostEdit" placeholder="Body Of Post" ></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="username">Image</label>
+          <input
+            type="file"
+            class="relative m-0 -mr-0.5 block w-full flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.5rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary "
+            id="imgedit" />
+        </div>
+      </form>
+    </div>
+    <div
+      class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+      <button
+      id="postcloseBtnedit"
+        type="button"
+        class="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+        data-te-modal-dismiss
+        data-te-ripple-init
+        data-te-ripple-color="light">
+        Close
+      </button>
+      <button
+      onclick="editPost()"
+        type="button"
+        class="ml-1 inline-block rounded bg-green-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-green-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]  focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+        data-te-ripple-init
+        id="editing"
+        data-te-ripple-color="light">
+       Edit
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+<!-- modal for delete post  -->
+<div
+data-te-modal-init
+class="fixed left-0 top-0 z-[100000] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+id="delete"
+tabindex="-1"
+aria-labelledby="exampleModalVaryingLabel"
+aria-hidden="true">
+<div
+  data-te-modal-dialog-ref
+  class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+  <div
+    class="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+    <div
+      class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+      <h5
+        class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+        id="exampleModalVaryingLabel">
+        Are you sure to delete?
+      </h5>
+      <button
+        type="button"
+        class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+        data-te-modal-dismiss
+        aria-label="Close">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-6 w-6">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+   
+    <div
+      class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+      <button
+      id="postcloseBtnDelete"
+        type="button"
+        class="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+        data-te-modal-dismiss
+        data-te-ripple-init
+        data-te-ripple-color="light">
+        Close
+      </button>
+      <button
+      onclick="deletingPost()"
+        type="button"
+        class="ml-1 inline-block rounded bg-red-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-red-900 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]  focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+        data-te-ripple-init
+        id=""
+        data-te-ripple-color="light">
+       Delete
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+    <!-- end modal -->
+    <!-- nav -->
+    <!-- Main navigation container -->
+    <div class="container">
+      <nav
+        class="relative flex w-full flex-nowrap items-center justify-between bg-white rounded-md py-[20px] text-neutral-500 shadow-lg hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600 lg:flex-wrap lg:justify-start lg:py-4"
+        data-te-navbar-ref>
+        <div class="flex w-full flex-wrap items-center justify-between px-3">
+          <div class="ml-2">
+            <a class="text-xl text-neutral-800 dark:text-neutral-200" href="index.html"
+              >Rayanco</a
+            >
+          </div>
+          <!-- Hamburger button for mobile view -->
+          <button
+            class="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden"
+            type="button"
+            data-te-collapse-init
+            data-te-target="#navbarSupportedContent3"
+            aria-controls="navbarSupportedContent3"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <!-- Hamburger icon -->
+            <span class="[&>svg]:w-7">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="h-7 w-7">
+                <path
+                  fill-rule="evenodd"
+                  d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+                  clip-rule="evenodd" />
+              </svg>
+            </span>
+          </button>
+
+          <!-- Collapsible navbar container -->
+          <div
+            class="!visible mt-2 hidden flex-grow basis-[100%] items-center lg:mt-0 lg:!flex lg:basis-auto"
+            id="navbarSupportedContent3"
+            data-te-collapse-item>
+            <!-- Left links -->
+            <div
+              class="list-style-none flex flex-col pl-0 lg:mt-1 lg:flex-row w-full"
+              data-te-navbar-nav-ref>
+              <div class="flex flex-col lg:flex-row lg:items-center">
+                <!-- Home link -->
+                <div class="pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
+                  <a
+                    class="active disabled:text-black/30 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                    aria-current="page"
+                    href="#"
+                    data-te-nav-link-ref
+                    >Home</a
+                  >
+                </div>
+                <!-- Features link -->
+                <div
+                  class="mb-4 pl-2 lg:mb-0 lg:pl-0 lg:pr-1"
+                  data-te-nav-item-ref>
+                  <a
+                    class="p-0 cursor-pointer text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                    onclick="myProfile()"
+                    data-te-nav-link-ref
+                    >Profile</a
+                  >
+                </div>
+              </div>
+              <!-- not logged in nav -->
+              <div id="login-btn-div" class="flex justify-center md:justify-end w-full  space-x-3">
+                <button
+                id="login-btn"
+                  data-te-toggle="modal"
+                  data-te-target="#exampleModalVarying"
+                  data-te-whatever="@mdo"
+                  type="button"
+                  class="inline-block rounded bg-gradient-to-r from-sky-500 to-indigo-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                  login
+                </button>
+                <button
+                id="sginup-btn"
+                  type="button"
+                  data-te-toggle="modal"
+                  data-te-target="#regestirition"
+                  data-te-whatever="@mdo"
+                  class="inline-block rounded bg-gradient-to-r bg-gradient-to-r from-violet-500 to-fuchsia-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                  sign up
+                </button>
+              </div>
+              <!-- not logged in nav -->
+               <!--  logged in nav -->
+               <div id="logout-btn-div" class="flex justify-center md:justify-end items-center w-full space-x-3">
+                 <img class="w-[40px] h-[40px] object-cover rounded-full " id="img-user" src="" alt="">
+                 <strong  id="name-user">rayan</strong>
+                <button
+                id="logout-btn"
+                 onclick="logOut()"
+                  type="button"
+                  class="inline-block rounded bg-rose-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-rose-700 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                  logout
+                </button>
+              
+              </div>
+              <!--  logged in nav -->
+
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <!-- end nav -->
+
+    <!-- main content -->
+    <div class="container">
+      <div class="posts mt-20">
+        <div class="post my-10">
+          <div
+            class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+            <div
+              class="border-b-2 flex items-center border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">
+              <img
+                class="rounded-full border border-[#ccc] mx-1 object-cover"
+                src="imgs/avatar-05.png"
+                width="40px"
+                height="40px"
+                alt="" />
+              <h2>@Rayan</h2>
+            </div>
+            <div class="p-6">
+              <img class="max-w-full rounded-lg" src="imgs/041.webp" alt="" />
+              <h6 class="mt-2 text-stone-400">2days ago</h6>
+              <h3 class="my-2">Hello world</h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro,
+                in exercitationem nostrum praesentium quasi iusto excepturi
+                obcaecati. Reprehenderit, incidunt quo.
+              </p>
+            </div>
+            <div
+              class="border-t-2 border-neutral-100 dark:border-neutral-600 dark:text-neutral-50"></div>
+            <span class="px-6"
+              ><i class="fa-solid fa-pen-clip mr-1 py-[20px] text-sky-600"></i>
+              3comments</span
+            >
+          </div>
+        </div>
+        <div class="post my-10">
+          <div
+            class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+            <div
+              class="border-b-2 flex items-center border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">
+              <img
+                class="rounded-full border border-[#ccc] mx-1 object-cover"
+                src="imgs/avatar-05.png"
+                width="40px"
+                height="40px"
+                alt="" />
+              <h2>@Rayan</h2>
+            </div>
+            <div class="p-6">
+              <img class="max-w-full rounded-lg" src="imgs/041.webp" alt="" />
+              <h6 class="mt-2 text-stone-400">2days ago</h6>
+              <h3 class="my-2">Hello world</h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro,
+                in exercitationem nostrum praesentium quasi iusto excepturi
+                obcaecati. Reprehenderit, incidunt quo.
+              </p>
+            </div>
+            <div
+              class="border-t-2 border-neutral-100 dark:border-neutral-600 dark:text-neutral-50"></div>
+            <span class="px-6"
+              ><i class="fa-solid fa-pen-clip mr-1 py-[20px] text-sky-600"></i>
+              3comments</span
+            >
+          </div>
+        </div>
+        <div class="post my-10">
+          <div
+            class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+            <div
+              class="border-b-2 flex items-center border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">
+              <img
+                class="rounded-full border border-[#ccc] mx-1 object-cover"
+                src="imgs/avatar-05.png"
+                width="40px"
+                height="40px"
+                alt="" />
+              <h2>@Rayan</h2>
+            </div>
+            <div class="p-6">
+              <img class="max-w-full rounded-lg" src="imgs/041.webp" alt="" />
+              <h6 class="mt-2 text-stone-400">2days ago</h6>
+              <h3 class="my-2">Hello world</h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro,
+                in exercitationem nostrum praesentium quasi iusto excepturi
+                obcaecati. Reprehenderit, incidunt quo.
+              </p>
+            </div>
+            <div
+              class="border-t-2 border-neutral-100 dark:border-neutral-600 dark:text-neutral-50"></div>
+            <span class="px-6"
+              ><i class="fa-solid fa-pen-clip mr-1 py-[20px] text-sky-600"></i>
+              3comments</span
+            >
+          </div>
+        </div>
+        <div class="post my-10">
+          <div
+            class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+            <div
+              class="border-b-2 flex items-center border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">
+              <img
+                class="rounded-full border border-[#ccc] mx-1 object-cover"
+                src="imgs/avatar-05.png"
+                width="40px"
+                height="40px"
+                alt="" />
+              <h2>@Rayan</h2>
+            </div>
+            <div class="p-6">
+              <img class="max-w-full rounded-lg" src="imgs/041.webp" alt="" />
+              <h6 class="mt-2 text-stone-400">2days ago</h6>
+              <h3 class="my-2">Hello world</h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro,
+                in exercitationem nostrum praesentium quasi iusto excepturi
+                obcaecati. Reprehenderit, incidunt quo.
+              </p>
+            </div>
+            <div
+              class="border-t-2 border-neutral-100 dark:border-neutral-600 dark:text-neutral-50"></div>
+            <span class="px-6"
+              ><i class="fa-solid fa-pen-clip mr-1 py-[20px] text-sky-600"></i>
+              3comments</span
+            >
+          </div>
+        </div>
+        <div class="post my-10">
+          <div
+            class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+            <div
+              class="border-b-2 flex items-center border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">
+              <img
+                class="rounded-full border border-[#ccc] mx-1 object-cover"
+                src="imgs/avatar-05.png"
+                width="40px"
+                height="40px"
+                alt="" />
+              <h2>@Rayan</h2>
+            </div>
+            <div class="p-6">
+              <img class="max-w-full rounded-lg" src="imgs/041.webp" alt="" />
+              <h6 class="mt-2 text-stone-400">2days ago</h6>
+              <h3 class="my-2">Hello world</h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro,
+                in exercitationem nostrum praesentium quasi iusto excepturi
+                obcaecati. Reprehenderit, incidunt quo.
+              </p>
+            </div>
+            <div
+              class="border-t-2 border-neutral-100 dark:border-neutral-600 dark:text-neutral-50"></div>
+            <span class="px-6"
+              ><i class="fa-solid fa-pen-clip mr-1 py-[20px] text-sky-600"></i>
+              3comments</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end content -->
+    <script
+      type="text/javascript"
+      src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/inAll.js"></script>
+  </body>
+</html>
